@@ -1,5 +1,5 @@
 # remote KDE made with Symfony 4
-Remote control your Linux KDE Desktop through a web-based interface mad in Symfony 4
+Remote control your Linux KDE Desktop through a web-based interface made in Symfony 4
 ## Getting Started
 coming soon.
 ### Prerequisites
@@ -12,4 +12,4 @@ coming soon.
 Sayid Sam-Sin
 https://github.com/S-Sam-Sin
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](/LICENSE) file for details
