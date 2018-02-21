@@ -4,4 +4,5 @@
 /public/bundles/
 /var/
 /vendor/
+/public/Semantic-UI-CSS-master
 ###< symfony/framework-bundle ###
