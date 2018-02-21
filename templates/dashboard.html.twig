@@ -1,0 +1,79 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+        <div class="twelve wide column">
+            <div class="ui segment">
+                <div class="ui red segment">
+                    <p><i class="chart pie icon"></i> Services, Users & Groups</p>
+                </div>
+                <div class="ui three stackable cards">
+                    <div class="ui link card">
+                        <div class="content">
+                            <div class="header"><i class="chart bar outline icon"></i> Services</div>
+                            <div class="meta">
+                                <span class="category">Systemd</span>
+                            </div>
+                            <div class="description">
+                                <p>
+                                    A unit configuration file whose name ends in .service encodes information about a process controlled and supervised by Systemd.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <i class="green circle icon"></i>
+                            <b>{{ TotalServices }} services</b>
+                        </div>
+                        <div class="ui buttons">
+                            <button class="ui red button">Offline</button>
+                            <div class="or" data-text="or"></div>
+                            <button class="ui positive button">Online</button>
+                        </div>
+                    </div>
+                    <div class="ui link card">
+                        <div class="content">
+                            <div class="header"><i class="users icon"></i> Users</div>
+                            <div class="meta">
+                                <span class="category">/etc/passwd</span>
+                            </div>
+                            <div class="description">
+                                <p>
+                                    Linux is a multi-user OS that is based on the Unix concepts of file ownership and permissions to provide security at the file system level.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <i class="green user icon"></i>
+                            <b>{{ TotalUsers }} registered</b>
+                        </div>
+                        <div class="ui purple bottom attached button">
+                            <i class="users icon"></i>
+                            View al users
+                        </div>
+                    </div>
+                    <div class="ui link card">
+                        <div class="content">
+                            <div class="header"><i class="id badge outline icon"></i> Groups</div>
+                            <div class="meta">
+                                <span class="category">/etc/group</span>
+                            </div>
+                            <div class="description">
+                                <p>
+                                    User accounts can be assigned to one or more groups on Linux. You can configure file permissions and other privileges by group.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <i class="green id badge outline icon"></i>
+                            <b>{{ TotalGroups }} groups</b>
+                        </div>
+                        <div class="ui purple bottom attached button">
+                            <i class="id badge outline icon"></i>
+                            View al groups
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
