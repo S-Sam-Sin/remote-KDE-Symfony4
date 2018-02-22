@@ -4,40 +4,38 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="/Semantic-UI-CSS-master/semantic.min.css">
-        <base href="~/">
+        <base href="">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-    <div class="ui two column doubling stackable grid container">
-        <div class="four wide column">
-            <div class="ui vertical menu">
-                <a href="/" class="item">
-                    KDE Remote
-                </a>
-                <div class="item">
-                    <div class="ui input"><input placeholder="Search..." type="text"></div>
-                </div>
-                <div class="item">
-                    <div class="ui card">
-                        <div class="image">
-                            <img src="{{ mainUser.5 }}/.face.icon">
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="header"><i class="desktop icon"></i> Dashboard</div>
-                    <div class="menu">
-                        <a class="item">Overview</a>
-                        <a class="item">Settings</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="ui labeled icon menu">
+        <a class="item">
+            <i class="teal tachometer alternate icon"></i>
+            Dashboard
+        </a>
+        <a class="item">
+            <i class="green users icon"></i>
+            Users & Groups
+        </a>
+        <a class="item">
+            <i class="green chart bar outline icon"></i>
+            Services
+        </a>
+        <a class="item">
+            <i class="blue archive icon"></i>
+            Dpkg
+        </a>
+        <a class="item">
+            <i class="red shield icon"></i>
+            UFW
+        </a>
+    </div>
         {% block body %}{% endblock %}
     <script
             src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js" integrity="sha256-vyehT44mCOPZg7SbqfOZ0HNYXjPKgBCaqxBkW3lh6bg=" crossorigin="anonymous"></script>
     <script src="/Semantic-UI-CSS-master/semantic.min.js"></script>
         {% block javascripts %}{% endblock %}
     </body>

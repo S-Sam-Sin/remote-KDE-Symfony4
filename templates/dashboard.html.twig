@@ -1,79 +1,187 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-
-        <div class="twelve wide column">
-            <div class="ui segment">
-                <div class="ui red segment">
-                    <p><i class="chart pie icon"></i> Services, Users & Groups</p>
+    <div class="ui  fluid container">
+        <div class="ui two column doubling stackable grid">
+            <div class="eight wide column">
+                <div class="ui segment">
+                    <h2 class="ui center aligned icon header">
+                        <i class="teal large server icon"></i>
+                        <div class="content">
+                            {{ os }}
+                            <div class="sub header">Manage your account settings and set e-mail preferences.</div>
+                        </div>
+                    </h2>
+                    <div class="ui list">
+                        <a class="item">
+                            <i class="code icon"></i>
+                            <div class="content">
+                                <div class="header">PHP {{ php }}</div>
+                                <div class="description">Originally created by Rasmus Lerdorf in 1994</div>
+                            </div>
+                        </a>
+                        <a class="item">
+                            <i class="right triangle icon"></i>
+                            <div class="content">
+                                <div class="header">Zend {{ zend }}</div>
+                                <div class="description">Zend Framework (ZF) is an open source, object-oriented web application framework implemented in PHP 5.</div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="ui three stackable cards">
-                    <div class="ui link card">
-                        <div class="content">
-                            <div class="header"><i class="chart bar outline icon"></i> Services</div>
-                            <div class="meta">
-                                <span class="category">Systemd</span>
-                            </div>
-                            <div class="description">
-                                <p>
-                                    A unit configuration file whose name ends in .service encodes information about a process controlled and supervised by Systemd.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="extra content">
-                            <i class="green circle icon"></i>
-                            <b>{{ TotalServices }} services</b>
-                        </div>
-                        <div class="ui buttons">
-                            <button class="ui red button">Offline</button>
-                            <div class="or" data-text="or"></div>
-                            <button class="ui positive button">Online</button>
+
+                <div class="ui two column doubling stackable grid">
+                    <div class="eight wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="teal large users icon"></i> Users & Groups
+                        </h3>
+                        <div class="ui attached segment">
+                            <canvas id="UsersGroups"  height="200px"></canvas>
+                            <p>
+                                Linux is a multi-user OS that is based on the Unix concepts
+                            </p>
                         </div>
                     </div>
-                    <div class="ui link card">
-                        <div class="content">
-                            <div class="header"><i class="users icon"></i> Users</div>
-                            <div class="meta">
-                                <span class="category">/etc/passwd</span>
-                            </div>
-                            <div class="description">
-                                <p>
-                                    Linux is a multi-user OS that is based on the Unix concepts of file ownership and permissions to provide security at the file system level.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="extra content">
-                            <i class="green user icon"></i>
-                            <b>{{ TotalUsers }} registered</b>
-                        </div>
-                        <div class="ui purple bottom attached button">
-                            <i class="users icon"></i>
-                            View al users
-                        </div>
-                    </div>
-                    <div class="ui link card">
-                        <div class="content">
-                            <div class="header"><i class="id badge outline icon"></i> Groups</div>
-                            <div class="meta">
-                                <span class="category">/etc/group</span>
-                            </div>
-                            <div class="description">
-                                <p>
-                                    User accounts can be assigned to one or more groups on Linux. You can configure file permissions and other privileges by group.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="extra content">
-                            <i class="green id badge outline icon"></i>
-                            <b>{{ TotalGroups }} groups</b>
-                        </div>
-                        <div class="ui purple bottom attached button">
-                            <i class="id badge outline icon"></i>
-                            View al groups
+                    <div class="eight wide column">
+                          <h3 class="ui  inverted top attached header">
+                            <i class="teal large chart pie icon"></i> Services
+                        </h3>
+                        <div class="ui attached segment">
+                            <canvas id="Services"  height="200px"></canvas>
+                            <p>
+                                A unit configuration file whose name ends in .service
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="eight wide column">
+                <div class="ui segment">
+                    <h2 class="ui center aligned icon header">
+                        <i class="blue large archive icon"></i>
+                        <div class="content">
+                            Dpkg - Package Manager
+                            <div class="sub header">{{ dpkgVersion.0 }}</div>
+                        </div>
+                    </h2>
+                    <table class="ui celled blue table">
+                        <thead>
+                        <tr>
+                            <th>Last 5 entries of /var/log/dpkg.Log</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for log in logs.2 %}
+                            <tr>
+                                <td>{{ log }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="ui blue bottom attached button" tabindex="0"><i class="large archive icon"></i> View more about Dpkg</div>
+                </div>
+                <div class="ui segment">
+                    <h2 class="ui center aligned icon header">
+                        <i class="red large shield icon"></i>
+                        <div class="content">
+                            UFW - Uncomplicated Firewall
+                            <div class="sub header">{{ ufwVersion.0 }} - {{ ufwVersion.1 }}</div>
+                        </div>
+                    </h2>
+                    <table class="ui celled red table">
+                        <thead>
+                        <tr>
+                            <th>Last 5 entries of /var/log/gufw.Log</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for log in logs.1 %}
+                            <tr>
+                                <td>{{ log }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <table class="ui celled red table">
+                        <thead>
+                        <tr>
+                            <th>Last 5 entries of /var/log/ufw.Log</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for log in logs.0 %}
+                        <tr>
+                            <td>{{ log }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="ui red bottom attached button" tabindex="0"><i class="large shield icon"></i> View more about UFW</div>
+
+
+
+                </div>
+            </div>
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        var ctx = document.getElementById("UsersGroups").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Users", "Groups"],
+                datasets: [{
+                    label: 'registered',
+                    data: [{{ TotalUsers }}, {{ TotalGroups }}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)'
+
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+        var ctx2 = document.getElementById("Services").getContext('2d');
+        var services = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ["{{ servicesActive }} Running", "{{ servicesDisabled }} Disabled"],
+                datasets: [{
+                    label: 'registered',
+                    data: [{{ servicesActive }}, {{ servicesDisabled }}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)'
+
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+
 {% endblock %}
