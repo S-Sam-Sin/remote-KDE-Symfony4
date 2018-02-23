@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DashBoardController extends Controller
 {
-    private $_os;
+    private $_os; #array
     private $_mainUser;
     private $_users;
     private $_groups;
@@ -16,7 +16,9 @@ class DashBoardController extends Controller
     private $_logs;
     private $_version;
     private $_bin;
+    private $_home;
     private $_kernel;
+    private $_disks;
     private $_output;
 
 
@@ -33,6 +35,7 @@ class DashBoardController extends Controller
      */
     public function index()
     {
+        $this->_disks = $this->DiskSpace();
         # Get kernels
         $this->_kernel = $this->SoftwareInstalled("linux-image");
 
@@ -53,18 +56,28 @@ class DashBoardController extends Controller
                                         "/sbin/",
                                         "/bin/"]);
 
+        # Binary Folders.
+        $this->_home = $this->CountFiles(["/root/",
+                                        "/home/",
+                                        "/media/",
+                                        "/var/www/",
+                                        ]);
+
         # Software versions.
         $this->_version = [ "ufw"   => $this->SoftwareVersion(FALSE,"ufw"),
                             "dpkg"  => $this->SoftwareVersion(TRUE,"dpkg"),
         ];
 
         # Log Entries
-        $this->_logs = $this->LogEntries([5,10,9], ["ufw","gufw", "dpkg"]);
+        $this->_logs = $this->LogEntries([5,10,5], ["ufw","gufw", "dpkg"]);
 
-//        dump($this->_os);
+//        dump($this->CPU());
+//        dump($this->_home);
 
         return $this->render('dashboard.html.twig', array(
             "os"                => $this->_os,
+            "cpu"               => $this->CPU(),
+            "disks"             => $this->_disks,
             "kernels"           => $this->_kernel,
             "mainUser"          => $this->_mainUser,
             "services"          => $this->_services,
@@ -75,9 +88,41 @@ class DashBoardController extends Controller
             "groups"            => count($this->_groups),
             "TotalGroups"       => count($this->_groups),
             "binary"            => $this->_bin,
+            "home"            => $this->_home,
             "version"           => $this->_version,
             "logs"              => $this->_logs,
         ));
+    }
+
+
+    public function MotherBoard() : array
+    {
+        unset($this->_output);
+        exec("lspci", $this->_output);
+        dump($this->_output);
+        return $this->_output;
+    }
+
+    public function DiskSpace() : array
+    {
+        unset($this->_output);
+        exec("df -h | grep sd",$disks);
+        $i = 0;
+        foreach ($disks as $disk)
+        {
+            $this->_output[$i] = explode(" ",$disk);
+            $this->_output[$i] = array_filter($this->_output[$i]);
+            $this->_output[$i] = array_values($this->_output[$i]);
+            $i++;
+        }
+        return $this->_output;
+    }
+
+    public function CPU() : array
+    {
+        unset($this->_output);
+        exec("lscpu", $this->_output);
+        return $this->_output;
     }
 
     public function Services(string $procedure) :array
@@ -92,12 +137,9 @@ class DashBoardController extends Controller
                 foreach ($services as $service)
                 {
                     if (substr($service, 1,5) == "[ + ]")
-                    {
                         $this->_output["enabled"][$i] = $service;
-                    }
-                    else{
+                    else
                         $this->_output["disabled"][$i] = $service;
-                    }
                     $i++;
                 }
                 return $this->_output;
@@ -124,14 +166,10 @@ class DashBoardController extends Controller
     public function SoftwareVersion(bool $binding, string $software) : array
     {
         unset($this->_output);
-        if($binding)
-        {
-            $binding = "--";
-        }
-        elseif($binding == FALSE)
-        {
-            $binding = "";
-        }
+
+        if($binding) $binding = "--";
+        elseif($binding == FALSE) $binding = "";
+
         exec($software." ".$binding."version",$this->_output);
         return $this->_output;
     }

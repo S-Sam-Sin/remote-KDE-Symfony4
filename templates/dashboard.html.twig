@@ -2,150 +2,362 @@
 
 {% block body %}
     <div class="ui fluid container">
-        <div class="ui one column doubling stackable centered grid">
-            <div class="four wide column">
-                <h3 class="ui  inverted top attached header">
-                    <i class="large server icon"></i> {{ os.name }}
-                </h3>
-                <div class="ui attached segment">
-                    <div class="ui list">
-                        <a class="item">
-                            <div class="ui progress" data-value="150" data-total="300" id="example6">
-                                <div class="bar">
-                                    <div class="progress"></div>
-                                </div>
-                                <div class="label">Carga de archivos</div>
-                            </div>
-                        </a>
-                        <a class="item">
-                            <i class="code icon"></i>
-                            <div class="content">
-                                <div class="header">PHP {{ os.phpversion }}</div>
-                                <div class="description">Originally created by Rasmus Lerdorf in 1994</div>
-                            </div>
-                        </a>
-                        <a class="item">
-                            <i class="right triangle icon"></i>
-                            <div class="content">
-                                <div class="header">Zend {{ os.zendversion }}</div>
-                                <div class="description">Zend Framework (ZF) is an open source, object-oriented web application framework implemented in PHP 5.</div>
-                            </div>
-                        </a>
+        <div class="ui two column doubling stackable centered grid">
+            <div class="two wide column">
+                <div class="ui vertical menu">
+                    <div class="item">
+                        <div class="header">{{ os.name }}</div>
+                        <div class="menu">
+                            <a class="item">Users & Groups</a>
+                            <a class="item">Services</a>
+                            <a class="item">CPU</a>
+                            <a class="item">Hard Disks</a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="header">Security</div>
+                        <div class="menu">
+                            <a class="item">Kernel</a>
+                            <a class="item">Gufw Logs</a>
+                            <a class="item">Ufw Logs</a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="header">Package & Files</div>
+                        <div class="menu">
+                            <a class="item">DPKG Logs</a>
+                            <a class="item">Binary Files</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="three wide column">
-                <h3 class="ui  inverted top attached header">
-                    <i class="large heartbeat icon"></i> Kernel
-                </h3>
-                <div class="ui attached segment">
-                    <table class="ui single line green table">
-                        <thead>
-                        <tr>
-                            <th>Installed Image(s)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for kernel in kernels %}
-                        <tr>
-                            <td>{{ kernel }}</td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+            <div class="twelve wide column">
+                <h2 class="ui center aligned icon header">
+                    <i class="large teal server icon"></i>
+                    {{ os.name }}
+                </h2>
+                <div class="ui grid">
+                    <div class="four wide column">
+                        <h3 class="ui  inverted attached header">
+                            <i class="large users icon"></i> Users & Groups
+                        </h3>
+                        <div class="ui attached segment">
+                            <canvas id="UsersGroups"  height="200px"></canvas>
+                        </div>
+                    </div>
+                    <div class="four wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="large chart pie icon"></i> Services
+                        </h3>
+                        <div class="ui attached segment">
+                            <canvas id="Services"  height="200px"></canvas>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="five wide column">
-                <h3 class="ui  inverted top attached header">
-                    <i class="large archive icon"></i> DPKG
-                </h3>
-                <div class="ui attached segment">
-                    <table class="ui celled blue table">
-                        <thead>
-                        <tr>
-                            <th>{{ version.dpkg.0 }}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for log in logs.2 %}
-                            <tr>
-                                <td>{{ log }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="ui doubling stackable centered grid">
+                    <div class="sixteen wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="large microchip icon"></i> CPU
+                        </h3>
+                        {% set vendor = cpu.9|split(':', 2) %}
+                            {% set model = cpu.12|split(':', 2) %}
+                            {% set amount = cpu.3|split(':', 2) %}
+                            {% set arch = cpu.0|split(':', 2) %}
+                            {% set arch2 = cpu.1|split(':', 2) %}
+                            {% set thread = cpu.5|split(':', 2) %}
+                            {% set sockets = cpu.7|split(':', 2) %}
+                            {% set csockets = cpu.6|split(':', 2) %}
+                            {% set mhz = cpu.14|split(':', 2) %}
+                            {% set maxmhz = cpu.15|split(':', 2) %}
+                            {% set minmhz = cpu.16|split(':', 2) %}
+                        <div class="ui doubling stackable centered grid">
+                            <div class="four wide column">
+                                <div class="ui attached segment">
+                                    <table class="ui blue table">
+                                        <thead>
+                                        <tr><th>Type</th>
+                                            <th>Value</th>
+                                        </tr></thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>{{ vendor.0 }}</td>
+                                            <td>{{ vendor.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ model.0 }}</td>
+                                            <td>{{ model.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ amount.0 }}</td>
+                                            <td>{{ amount.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ arch.0 }}</td>
+                                            <td>{{ arch.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ arch2.0 }}</td>
+                                            <td>{{ arch2.1 }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="four wide column">
+                                <div class="ui attached segment">
+                                    <table class="ui blue table">
+                                <thead>
+                                <tr><th>Type</th>
+                                    <th>Value</th>
+                                </tr></thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ thread.0 }}</td>
+                                    <td>{{ thread.1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ sockets.0 }}</td>
+                                    <td>{{ sockets.1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ csockets.0 }}</td>
+                                    <td>{{ csockets.1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ mhz.0 }}</td>
+                                    <td>{{ mhz.1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ maxmhz.0 }}</td>
+                                    <td>{{ maxmhz.1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ minmhz.0 }}</td>
+                                    <td>{{ minmhz.1 }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                                </div>
+                            </div>
+                            <div class="four wide column">
+                                <div class="ui attached segment">
+                                    <table class="ui blue table">
+                                        <thead>
+                                        <tr><th>Type</th>
+                                            <th>Value</th>
+                                        </tr></thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>{{ thread.0 }}</td>
+                                            <td>{{ thread.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ sockets.0 }}</td>
+                                            <td>{{ sockets.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ csockets.0 }}</td>
+                                            <td>{{ csockets.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ mhz.0 }}</td>
+                                            <td>{{ mhz.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ maxmhz.0 }}</td>
+                                            <td>{{ maxmhz.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ minmhz.0 }}</td>
+                                            <td>{{ minmhz.1 }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="four wide column">
+                                <div class="ui attached segment">
+                                    <table class="ui blue table">
+                                        <thead>
+                                        <tr><th>Type</th>
+                                            <th>Value</th>
+                                        </tr></thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>{{ thread.0 }}</td>
+                                            <td>{{ thread.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ sockets.0 }}</td>
+                                            <td>{{ sockets.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ csockets.0 }}</td>
+                                            <td>{{ csockets.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ mhz.0 }}</td>
+                                            <td>{{ mhz.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ maxmhz.0 }}</td>
+                                            <td>{{ maxmhz.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ minmhz.0 }}</td>
+                                            <td>{{ minmhz.1 }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+                <div class="ui doubling stackable centered grid">
+                    <div class="sixteen wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="large hdd icon"></i> Hard Disks
+                        </h3>
+                        <div class="ui attached segment">
+                            <div class="ui list">
+                                <a class="item">
+                                    {% for disk in disks %}
+                                        <div class="ui teal progress drives" data-value="{{ disk.2|trim('G') }}" data-total="{{ disk.1|trim('G') }}" id="example6">
+                                            <div class="bar">
+                                                <div class="progress"></div>
+                                            </div>
+                                            <div class="label">{{ disk.5 }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="ui center aligned icon header">
+                    <i class="large red crosshairs icon"></i>
+                    Security
+                </h2>
+                <div class="ui doubling stackable centered grid">
+                    <div class="four wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="large heartbeat icon"></i> Kernel
+                        </h3>
+                        <div class="ui attached segment">
+                            <table class="ui single line green table">
+                                <thead>
+                                <tr>
+                                    <th>Installed Image(s)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for kernel in kernels %}
+                                    <tr>
+                                        <td>{{ kernel }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="six wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="large shield icon"></i> GUFW - Graphical Uncomplicated Firewall
+                        </h3>
+                        <div class="ui attached segment">
+                            <table class="ui red table">
+                                <thead>
+                                <tr>
+                                    <th>{{ version.ufw.0 }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for log in logs.1 %}
+                                    <tr>
+                                        <td>{{ log }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="six wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="large shield icon"></i> UFW - Uncomplicated Firewall
+                        </h3>
+                        <div class="ui attached segment">
+                            <table class="ui red celled table">
+                                <thead>
+                                <tr>
+                                    <th>Last 5 entries of /var/log/ufw.Log</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for log in logs.0 %}
+                                    <tr>
+                                        <td>{{ log }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="ui center aligned icon header">
+                    <i class="large blue archive icon"></i>
+                    Packages & Files
+                </h2>
+                <div class="ui doubling stackable centered grid">
+                    <div class="five wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="large archive icon"></i> DPKG
+                        </h3>
+                        <div class="ui attached segment">
+                            <table class="ui celled blue table">
+                                <thead>
+                                <tr>
+                                    <th>{{ version.dpkg.0 }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for log in logs.2 %}
+                                    <tr>
+                                        <td>{{ log }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="five wide column">
+                        <h3 class="ui  inverted top attached header">
+                            <i class="large file code icon"></i> Binary Files
+                        </h3>
+                        <div class="ui attached segment">
+                            <canvas id="Bin"  height="200px"></canvas>
+                        </div>
+                    </div>
+                </div>
         </div>
-        <div class="ui three column doubling stackable grid">
-            <div class="column">
-                <h3 class="ui  inverted top attached header">
-                    <i class="large users icon"></i> Users & Groups
-                </h3>
-                <div class="ui attached segment">
-                    <canvas id="UsersGroups"  height="200px"></canvas>
-                </div>
+        <div class="ui one column doubling stackable centered grid">
+
+            <div class="three wide column">
+
+
             </div>
-            <div class="column">
-                <h3 class="ui  inverted top attached header">
-                    <i class="large chart pie icon"></i> Services
-                </h3>
-                <div class="ui attached segment">
-                    <canvas id="Services"  height="200px"></canvas>
-                </div>
-            </div>
-            <div class="column">
-                <h3 class="ui  inverted top attached header">
-                    <i class="large file code icon"></i> Binary Files
-                </h3>
-                <div class="ui attached segment">
-                    <canvas id="Bin"  height="200px"></canvas>
-                </div>
-            </div>
+
+
+        </div>
+        <div class="ui one column doubling stackable centered grid">
+
+
         </div>
     </div>
     <div class="ui three column doubling stackable centered grid">
-        <div class="six wide column">
-            <h3 class="ui  inverted top attached header">
-                <i class="large shield icon"></i> GUFW - Graphical Uncomplicated Firewall
-            </h3>
-            <div class="ui attached segment">
-                <table class="ui single line red table">
-                    <thead>
-                    <tr>
-                        <th>{{ version.ufw.0 }}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for log in logs.1 %}
-                        <tr>
-                            <td>{{ log }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="six wide column">
-            <h3 class="ui  inverted top attached header">
-                <i class="large shield icon"></i> UFW - Uncomplicated Firewall
-            </h3>
-            <div class="ui attached segment">
-            <table class="ui red celled table">
-                <thead>
-                <tr>
-                    <th>Last 5 entries of /var/log/ufw.Log</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for log in logs.0 %}
-                    <tr>
-                        <td>{{ log }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+
+
     </div>
     </div>
 {% endblock %}
@@ -235,11 +447,11 @@
                 }]
             }
         });
-        $('#example6')
+        $('.drives')
             .progress({
                 label: 'ratio',
                 text: {
-                    ratio: '{value} de {total}'
+                    ratio: '{value} GB of {total} GB'
                 }
             })
         ;
