@@ -19,6 +19,7 @@ class DashBoardController extends Controller
     private $_home;
     private $_kernel;
     private $_disks;
+    private $_filecount;
     private $_output;
 
 
@@ -56,12 +57,21 @@ class DashBoardController extends Controller
                                         "/sbin/",
                                         "/bin/"]);
 
-        # Binary Folders.
-        $this->_home = $this->CountFiles(["/root/",
-                                        "/home/",
-                                        "/media/",
-                                        "/var/www/",
-                                        ]);
+//        # Binary Folders.
+//        $this->_home = $this->CountFiles(["/root/",
+//                                        "/home/",
+//                                        "/media/",
+//                                        "/var/www/",
+//                                        ]);
+//
+
+
+        $this->_filecount[0] = $this->FindFiles("/home/".$this->_mainUser[0]."/Pictures/",
+            ["jpg", "jpeg", "png", "gif", "psd", "svg"],
+            TRUE);
+        $this->_filecount[1] = $this->FindFiles("/home/".$this->_mainUser[0]."/Documents/",
+            ["odt", "ott", "fodt", "uot", "docx", "doc", "dot","pdf", "txt"],
+            TRUE);
 
         # Software versions.
         $this->_version = [ "ufw"   => $this->SoftwareVersion(FALSE,"ufw"),
@@ -71,12 +81,13 @@ class DashBoardController extends Controller
         # Log Entries
         $this->_logs = $this->LogEntries([5,10,5], ["ufw","gufw", "dpkg"]);
 
-//        dump($this->CPU());
-//        dump($this->_home);
+//       dump($this->_filecount);
+//        dump($this->_mainUser);
 
         return $this->render('dashboard.html.twig', array(
             "os"                => $this->_os,
             "cpu"               => $this->CPU(),
+            "filetypes"         => $this->_filecount,
             "disks"             => $this->_disks,
             "kernels"           => $this->_kernel,
             "mainUser"          => $this->_mainUser,
@@ -113,6 +124,7 @@ class DashBoardController extends Controller
             $this->_output[$i] = explode(" ",$disk);
             $this->_output[$i] = array_filter($this->_output[$i]);
             $this->_output[$i] = array_values($this->_output[$i]);
+            $this->_output[$i][4] = (int)substr($this->_output[$i][4],0,2);
             $i++;
         }
         return $this->_output;
@@ -197,6 +209,26 @@ class DashBoardController extends Controller
         foreach ($folders as $folder)
         {
             $this->_output[$i] = exec("ls -1 ".$folder." | wc -l");
+            $i++;
+        }
+        return $this->_output;
+    }
+
+    public function FindFiles(string $directory, array $extensions, bool $count = FALSE)
+    {
+        unset($this->_output);
+        $i = 0;
+        $files = array();
+        foreach ($extensions as $extension)
+        {
+            exec("find ".$directory." -name \"*.".$extension."\"",  $files[$i]);
+            if($count)
+            {
+              $this->_output[$extension] = count($files[$i]);
+            }
+            else{
+                $this->_output[$extension] = $files[$i];
+            }
             $i++;
         }
         return $this->_output;
